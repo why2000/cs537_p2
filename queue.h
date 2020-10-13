@@ -5,33 +5,36 @@
 
 #ifndef PRODCOM_QUEUE_H
 #define PRODCOM_QUEUE_H
-
-#define TEST_SIZE 10
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <semaphore.h>
-#include <sys/time.h>
-#include <time.h>
-
+#include "prodcom.h"
 
 typedef struct{
-    char** array;
+    int signal;
     int first;
     int last;
     int size;
     int enqueueCount;
     int dequeueCount;
+    char** array;
     double enqueueTime;
     double dequeueTime;
+    sem_t enList;
+    sem_t deList;
+    // this sem is used for extension -- such as printing or other side-functions
+    sem_t mutex;
+
 } Queue;
+
+
+typedef struct{
+    Queue* inQ;
+    Queue* outQ;
+} QueueIO;
 
 Queue *CreateStringQueue(int size);
 
 void EnqueueString(Queue *q, char *string);
 
-char * DequeueString(Queue *q);
+char* DequeueString(Queue *q);
 
 void PrintQueueStats(Queue *q);
 
