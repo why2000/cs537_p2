@@ -76,6 +76,7 @@ char* DequeueString(Queue* const q){
  * output function
  */
 void PrintQueueStats(Queue* const q){
+    sem_wait(&q->mutex);
     printStats(q->stat);
-
+    sem_post(&q->mutex);
 }
