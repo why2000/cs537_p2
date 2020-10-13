@@ -8,15 +8,28 @@
  * Init queue
  */
 Queue* CreateStringQueue(int size){
-    Queue *queue = malloc(sizeof(Queue));
+    Queue *queue;
+    if((queue = malloc(sizeof(Queue)))==NULL){
+        perror("unable to alloc memory");
+        queue->signal = 1;
+        pthread_exit(0);
+    }
     queue->first = 0;
     queue->items = 0;
     queue->size = size;
     queue->signal = 0;
-    queue->array = (char**)malloc(sizeof(char*)*size);
+    if((queue->array = (char**)malloc(sizeof(char*)*size))==NULL){
+        perror("unable to alloc memory");
+        queue->signal = 1;
+        pthread_exit(0);
+    }
     queue->stat.enqueueTime = 0;
     queue->stat.dequeueTime = 0;
-    pthread_mutex_init(&queue->mutex, NULL);
+    if(pthread_mutex_init(&queue->mutex, NULL)!=0){
+        perror("unable to init mutex");
+        queue->signal = 1;
+        pthread_exit(0);
+    }
     return queue;
 }
 

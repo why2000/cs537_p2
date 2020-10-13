@@ -12,7 +12,10 @@
 void Reader(void* vQ){
     Queue* q = (Queue*)vQ;
     char* bufStr;
-    bufStr = (char*)malloc(sizeof(char)*MAX_LINE);
+    if((bufStr = (char*)malloc(sizeof(char)*MAX_LINE)) == NULL){
+        perror("unable to alloc memory");
+        pthread_exit(0);
+    }
 #ifdef DEBUG
     // for convinence
     FILE* fp = fopen("../bigfile.txt", "r");
@@ -23,7 +26,10 @@ void Reader(void* vQ){
         EnqueueString(q, bufStr);
         bufStr = NULL;
         // register a new str
-        bufStr = (char*)malloc(sizeof(char)*MAX_LINE);
+        if((bufStr = (char*)malloc(sizeof(char)*MAX_LINE)) == NULL){
+            perror("unable to alloc memory");
+            pthread_exit(0);
+        }
     }
     q->signal = 1;
     pthread_exit(0);
