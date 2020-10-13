@@ -27,8 +27,7 @@ void Munch1(void* qIO){
  * The function acting on inStr, replacing all chars equal to 'src' into 'tgt'
  */
 void strrpl(char* const inStr, const char src, const char tgt){
-    unsigned long length = strlen(inStr);
-    for(unsigned long i = 0; i < length+1; i++){
+    for(unsigned long i = 0; inStr[i] != '\0' && i < MAX_LINE; i++){
         if(inStr[i] == src)
             inStr[i] = tgt;
     }

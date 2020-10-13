@@ -27,8 +27,7 @@ void Munch2(void* qIO){
  * The function acting on inStr, replacing all lower chars into upper form.
  */
 void strtoup(char* const inStr){
-    unsigned long length = strlen(inStr);
-    for(unsigned long i = 0; i < length+1; i++){
+    for(unsigned long i = 0; inStr[i] != '\0' && i < MAX_LINE; i++){
         if(islower(inStr[i]))
             inStr[i] = (char)toupper(inStr[i]);
     }

@@ -32,11 +32,10 @@ void EnqueueString(Queue* const q, char* const inStr){
     q->array[q->last] = inStr;
     countEnqueue(&(q->stat));
     q->last = (q->last+1)%(q->size);
+    sem_post(&q->deList);
+    //sem_post(&q->mutex);
     finish = clock();
     enqueueTimer(&(q->stat), finish - start);
-    // If I post the sem first, the total enqueue/dequeue time will be much larger than "real time"
-    sem_post(&q->deList);
-
 
 }
 
@@ -54,9 +53,9 @@ char* DequeueString(Queue* const q){
     q->array[q->first] = NULL;
     q->first = (q->first+1)%(q->size);
     countDequeue(&(q->stat));
+    sem_post(&q->enList);
     finish = clock();
     dequeueTimer(&(q->stat), finish - start);
-    sem_post(&q->enList);
     return ret;
 
 }
