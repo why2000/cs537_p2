@@ -50,11 +50,19 @@ int main(void) {
     fprintf(stderr,"Statics:\n");
     fprintf(stderr,"Queue between Reader and Munch1:\n");
     PrintQueueStats(queue1);
+    free(queue1->array);
+    free(queue1);
+    queue1 = NULL;
     fprintf(stderr,"Queue between Munch1 and Munch2:\n");
     PrintQueueStats(queue2);
+    free(queue2->array);
+    free(queue2);
+    queue2 = NULL;
     fprintf(stderr,"Queue between Munch2 and Writer:\n");
     PrintQueueStats(queue3);
-
+    free(queue3->array);
+    free(queue3);
+    queue3 = NULL;
 
     return 0;
 }

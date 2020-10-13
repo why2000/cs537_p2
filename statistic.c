@@ -21,7 +21,7 @@ int getDequeueCount(const Stat stat){
 }
 
 void enqueueTimer(Stat* const stat, const clock_t clk){
-    stat->enqueueTime = 1.0*clk/CLOCKS_PER_SEC;
+    stat->enqueueTime += 1.0*clk/CLOCKS_PER_SEC;
 }
 
 double getEnqueueTime(const Stat stat){
@@ -29,7 +29,7 @@ double getEnqueueTime(const Stat stat){
 }
 
 void dequeueTimer(Stat* const stat, const clock_t clk){
-    stat->dequeueTime = 1.0*clk/CLOCKS_PER_SEC;
+    stat->dequeueTime += 1.0*clk/CLOCKS_PER_SEC;
 }
 
 double getDequeueTime(const Stat stat){
