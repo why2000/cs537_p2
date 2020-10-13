@@ -4,6 +4,11 @@
 
 #include "writer.h"
 
+/*
+ * Thread: Writer
+ * Function: read string from munch2 (using queue) and print them to stdout
+ * Params: Queue* vQ, the queue to be sent the data read from stdin
+ */
 void Writer(void* vQ){
     Queue* q = (Queue*)vQ;
     char* bufStr;

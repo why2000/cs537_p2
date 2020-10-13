@@ -5,6 +5,11 @@
 #define DEBUG
 #include "reader.h"
 
+/*
+ * Thread: Reader
+ * Function: read string from stdin (or a certain file if DEBUG is defined)
+ * Params: Queue* vQ, the queue to be sent the data read from stdin
+ */
 void Reader(void* vQ){
     Queue* q = (Queue*)vQ;
     char* bufStr;

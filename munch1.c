@@ -4,6 +4,11 @@
 
 #include "munch1.h"
 
+/*
+ * Thread: Munch1
+ * Function: Get strings from the Reader and send them to munch2 (using queues)
+ * Params: QueueIO* qIO, a simple struct which is the pack of two queues (named inQ and outQ)
+ */
 void Munch1(void* qIO){
     Queue* inQ = ((QueueIO*)qIO)->inQ;
     Queue* outQ = ((QueueIO*)qIO)->outQ;
@@ -18,6 +23,9 @@ void Munch1(void* qIO){
 
 }
 
+/*
+ * The function acting on inStr, replacing all chars equal to 'src' into 'tgt'
+ */
 void strrpl(char* const inStr, const char src, const char tgt){
     unsigned long length = strlen(inStr);
     for(unsigned long i = 0; i < length+1; i++){

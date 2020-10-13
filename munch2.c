@@ -4,6 +4,11 @@
 
 #include "munch2.h"
 
+/*
+ * Thread: Munch2
+ * Function: Get strings from Munch1 and send them to the Writer (using queues)
+ * Params: QueueIO* qIO, a simple struct which is the pack of two queues (named inQ and outQ)
+ */
 void Munch2(void* qIO){
     Queue* inQ = ((QueueIO*)qIO)->inQ;
     Queue* outQ = ((QueueIO*)qIO)->outQ;
@@ -18,6 +23,9 @@ void Munch2(void* qIO){
 
 }
 
+/*
+ * The function acting on inStr, replacing all lower chars into upper form.
+ */
 void strtoup(char* const inStr){
     unsigned long length = strlen(inStr);
     for(unsigned long i = 0; i < length+1; i++){
