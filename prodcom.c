@@ -42,10 +42,22 @@ int main(void) {
         printf("Failed creating writer pthread\n");
         return -1;
     }
-    pthread_join(reader, NULL);
-    pthread_join(munch1, NULL);
-    pthread_join(munch2, NULL);
-    pthread_join(writer, NULL);
+    if(pthread_join(reader, NULL)!=0){
+        printf("Failed joining reader pthread\n");
+        return -1;
+    }
+    if(pthread_join(munch1, NULL)!=0){
+        printf("Failed joining munch1 pthread\n");
+        return -1;
+    }
+    if(pthread_join(munch2, NULL)!=0){
+        printf("Failed joining munch2 pthread\n");
+        return -1;
+    }
+    if(pthread_join(writer, NULL)!=0){
+        printf("Failed joining writer pthread\n");
+        return -1;
+    }
 
     fprintf(stderr,"Statics:\n");
     fprintf(stderr,"Queue between Reader and Munch1:\n");

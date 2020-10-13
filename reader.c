@@ -15,7 +15,7 @@ void Reader(void* vQ){
     bufStr = (char*)malloc(sizeof(char)*MAX_LINE);
 #ifdef DEBUG
     // for convinence
-    FILE* fp = fopen("../test.txt", "r");
+    FILE* fp = fopen("../bigfile.txt", "r");
     while(fgets(bufStr, MAX_LINE, fp) != NULL){
 #else
     while(fgets(bufStr, MAX_LINE, stdin) != NULL){

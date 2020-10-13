@@ -14,15 +14,9 @@ Queue* CreateStringQueue(int size){
     queue->size = size;
     queue->signal = 0;
     queue->array = (char**)malloc(sizeof(char*)*size);
-    if(sem_init(&queue->mutex,0, 1) != 0){
-        perror("failed to init sem mutex");
-    }
-    if(sem_init(&queue->enList,0,size) != 0){
-        perror("failed to init sem enList");
-    }
-    if(sem_init(&queue->deList,0,0)){
-        perror("failed to init sem deList");
-    }
+    queue->stat.enqueueTime = 0;
+    queue->stat.dequeueTime = 0;
+    pthread_mutex_init(&queue->mutex, NULL);
     return queue;
 }
 
@@ -31,18 +25,19 @@ Queue* CreateStringQueue(int size){
  * Enqueue with inStr to the last
  */
 void EnqueueString(Queue* const q, char* const inStr){
-    clock_t start, finish;
-    start = clock();
-    sem_wait(&q->enList);
-    sem_wait(&q->mutex);
+    struct timeval start, finish, itvl;
+    gettimeofday(&start, NULL);
+    pthread_mutex_lock(&q->mutex);
+    while(q->items == q->size)
+        pthread_cond_wait(&q->nonFull, &q->mutex);
     q->array[(q->first+q->items)%q->size] = inStr;
     countEnqueue(&q->stat);
     q->items++;
-    finish = clock();
-    enqueueTimer(&q->stat, finish - start);
-    sem_post(&q->deList);
-    sem_post(&q->mutex);
-
+    pthread_cond_signal(&q->nonEmpty);
+    pthread_mutex_unlock(&q->mutex);
+    gettimeofday(&finish, NULL);
+    timersub(&finish, &start, &itvl);
+    enqueueTimer(&q->stat, itvl.tv_sec+(1.0*itvl.tv_usec)/1e6);
 
 }
 
@@ -54,19 +49,21 @@ char* DequeueString(Queue* const q){
     if(q->signal && q->items == 0){
         return NULL;
     }
-    clock_t start, finish;
-    start = clock();
-    sem_wait(&q->deList);
-    sem_wait(&q->mutex);
+    struct timeval start, finish, itvl;
+    gettimeofday(&start, NULL);
+    pthread_mutex_lock(&q->mutex);
+    while(q->items == 0)
+        pthread_cond_wait(&q->nonEmpty, &q->mutex);
     char* ret = q->array[q->first];
     q->array[q->first] = NULL;
     q->first = (q->first+1)%(q->size);
     q->items--;
     countDequeue(&q->stat);
-    finish = clock();
-    dequeueTimer(&q->stat, finish - start);
-    sem_post(&q->enList);
-    sem_post(&q->mutex);
+    pthread_cond_signal(&q->nonFull);
+    pthread_mutex_unlock(&q->mutex);
+    gettimeofday(&finish, NULL);
+    timersub(&finish, &start, &itvl);
+    dequeueTimer(&q->stat, itvl.tv_sec+(1.0*itvl.tv_usec)/1e6);
     return ret;
 
 }
@@ -76,7 +73,5 @@ char* DequeueString(Queue* const q){
  * output function
  */
 void PrintQueueStats(Queue* const q){
-    sem_wait(&q->mutex);
     printStats(q->stat);
-    sem_post(&q->mutex);
 }

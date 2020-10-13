@@ -18,9 +18,9 @@ void countEnqueue(Stat*);
 int getEnqueueCount(Stat);
 void countDequeue(Stat*);
 int getDequeueCount(Stat);
-void enqueueTimer(Stat*, clock_t);
+void enqueueTimer(Stat*, double);
 double getEnqueueTime(Stat);
-void dequeueTimer(Stat*, clock_t);
+void dequeueTimer(Stat*, double);
 double getDequeueTime(Stat);
 void printStats(Stat);
 

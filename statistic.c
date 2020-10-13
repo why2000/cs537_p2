@@ -20,16 +20,16 @@ int getDequeueCount(const Stat stat){
     return stat.dequeueCount;
 }
 
-void enqueueTimer(Stat* const stat, const clock_t clk){
-    stat->enqueueTime += (double)clk/CLOCKS_PER_SEC;
+void enqueueTimer(Stat* const stat, const double itvl){
+    stat->enqueueTime += itvl;
 }
 
 double getEnqueueTime(const Stat stat){
     return stat.enqueueTime;
 }
 
-void dequeueTimer(Stat* const stat, const clock_t clk){
-    stat->dequeueTime += (double)clk/CLOCKS_PER_SEC;
+void dequeueTimer(Stat* const stat, const double itvl){
+    stat->dequeueTime += itvl;
 }
 
 double getDequeueTime(const Stat stat){

@@ -14,9 +14,9 @@ typedef struct{
     int items;
     int size;
     char** array;
-    sem_t enList;
-    sem_t deList;
-    sem_t mutex;
+    pthread_mutex_t mutex;
+    pthread_cond_t nonEmpty;
+    pthread_cond_t nonFull;
     Stat stat;
 } Queue;
 
