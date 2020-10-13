@@ -17,7 +17,6 @@ void Writer(void* vQ){
         free(bufStr);
         bufStr = NULL;
     }
-    q->signal = 1;
     printf("Number of lines processed: %d\n", getDequeueCount(q->stat));
     pthread_exit(0);
 

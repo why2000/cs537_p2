@@ -10,14 +10,19 @@
 Queue* CreateStringQueue(int size){
     Queue *queue = malloc(sizeof(Queue));
     queue->first = 0;
-    queue->last = 0;
+    queue->items = 0;
     queue->size = size;
     queue->signal = 0;
     queue->array = (char**)malloc(sizeof(char*)*size);
-    //sem_init(&queue->mutex,0,1);
-    sem_init(&queue->enList,0,size);
-    sem_init(&queue->deList,0,0);
-
+    if(sem_init(&queue->mutex,0, 1) != 0){
+        perror("failed to init sem mutex");
+    }
+    if(sem_init(&queue->enList,0,size) != 0){
+        perror("failed to init sem enList");
+    }
+    if(sem_init(&queue->deList,0,0)){
+        perror("failed to init sem deList");
+    }
     return queue;
 }
 
@@ -29,13 +34,15 @@ void EnqueueString(Queue* const q, char* const inStr){
     clock_t start, finish;
     start = clock();
     sem_wait(&q->enList);
-    q->array[q->last] = inStr;
-    countEnqueue(&(q->stat));
-    q->last = (q->last+1)%(q->size);
-    sem_post(&q->deList);
-    //sem_post(&q->mutex);
+    sem_wait(&q->mutex);
+    q->array[(q->first+q->items)%q->size] = inStr;
+    countEnqueue(&q->stat);
+    q->items++;
     finish = clock();
-    enqueueTimer(&(q->stat), finish - start);
+    enqueueTimer(&q->stat, finish - start);
+    sem_post(&q->deList);
+    sem_post(&q->mutex);
+
 
 }
 
@@ -44,18 +51,22 @@ void EnqueueString(Queue* const q, char* const inStr){
  */
 char* DequeueString(Queue* const q){
     // check finished signal
-    if(q->signal && q->first == q->last)
+    if(q->signal && q->items == 0){
         return NULL;
+    }
     clock_t start, finish;
     start = clock();
     sem_wait(&q->deList);
+    sem_wait(&q->mutex);
     char* ret = q->array[q->first];
     q->array[q->first] = NULL;
     q->first = (q->first+1)%(q->size);
-    countDequeue(&(q->stat));
-    sem_post(&q->enList);
+    q->items--;
+    countDequeue(&q->stat);
     finish = clock();
-    dequeueTimer(&(q->stat), finish - start);
+    dequeueTimer(&q->stat, finish - start);
+    sem_post(&q->enList);
+    sem_post(&q->mutex);
     return ret;
 
 }
