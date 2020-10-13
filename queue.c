@@ -43,11 +43,11 @@ void EnqueueString(Queue* const q, char* const inStr){
  * dequeue the first in queue
  */
 char* DequeueString(Queue* const q){
-    clock_t start, finish;
-    start = clock();
     // check finished signal
     if(q->signal && q->first == q->last)
         return NULL;
+    clock_t start, finish;
+    start = clock();
     sem_wait(&q->deList);
     char* ret = q->array[q->first];
     q->array[q->first] = NULL;
