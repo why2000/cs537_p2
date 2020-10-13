@@ -4,7 +4,7 @@
 
 #ifndef PRODCOM_PRODCOM_H
 #define PRODCOM_PRODCOM_H
-#include <pthread.h>
+
 #define MAX_LINE 2048
 #define TEST_SIZE 10
 #include <stdio.h>

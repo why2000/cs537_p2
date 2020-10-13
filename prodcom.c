@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
     queue2 = CreateStringQueue(TEST_SIZE);
     queue3 = CreateStringQueue(TEST_SIZE);
     QueueIO pack1_2 = {.inQ=queue1,.outQ=queue2};
-    QueueIO pack2_3 = {.inQ=queue1,.outQ=queue2};
+    QueueIO pack2_3 = {.inQ=queue2,.outQ=queue3};
     pthread_t reader, munch1, munch2, writer;
 
     if(pthread_create(&reader, NULL, (void*)Reader, queue1)!=0)

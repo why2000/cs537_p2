@@ -24,10 +24,9 @@ void EnqueueString(Queue* const q, char* const string){
     clock_t start, finish;
     start = clock();
     // if the mutex sem is redundent?
-    sem_wait(&q->mutex);
     sem_wait(&q->enList);
+    sem_wait(&q->mutex);
     q->array[q->last] = string;
-    //increment count
     q->enqueueCount++;
     q->last = (q->last+1)%(q->size);
     sem_post(&q->deList);
@@ -43,8 +42,8 @@ char* DequeueString(Queue* const q){
     // check finished signal
     if(q->signal && q->first == q->last)
         return NULL;
-    sem_wait(&q->mutex);
     sem_wait(&q->deList);
+    sem_wait(&q->mutex);
     char* ret = q->array[q->first];
     q->array[q->first] = NULL;
     q->first = (q->first+1)%(q->size);
