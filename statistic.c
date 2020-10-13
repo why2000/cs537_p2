@@ -39,5 +39,5 @@ double getDequeueTime(const Stat stat){
 void printStats(const Stat stat){
     printf("enqueueCnt\tdequeueCnt\tenqueueTime\tdequeueTime\n");
     printf("%d\t%d\t%lf\t%lf\n",
-           getEnqueueCount(stat),getDequeueCount(stat),getEnqueueTime(stat),getEnqueueTime(stat));
+           getEnqueueCount(stat),getDequeueCount(stat),getEnqueueTime(stat),getDequeueTime(stat));
 }

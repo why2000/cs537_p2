@@ -2,7 +2,7 @@
 // Created by Hanyuan Wu on 10/7/20.
 // team members: Hanyuan Wu, Zhihao Shu
 
-#define DEBUG
+//#define DEBUG
 #include "reader.h"
 
 /*
@@ -15,8 +15,8 @@ void Reader(void* vQ){
     char* bufStr;
     bufStr = (char*)malloc(sizeof(char)*MAX_LINE);
 #ifdef DEBUG
-    // since my vm does not support the input of EOF
-    FILE* fp = fopen("./bigfile2.txt", "r");
+    // for convinence
+    FILE* fp = fopen("./test.txt", "r");
     while(fgets(bufStr, MAX_LINE, fp) != NULL){
 #else
     while(fgets(bufStr, MAX_LINE, stdin) != NULL){
