@@ -17,7 +17,7 @@ typedef struct{
     sem_t enList;
     sem_t deList;
     // this sem is used for extension -- such as printing or other side-functions
-    sem_t mutex;
+    // sem_t mutex;
     Stat stat;
 } Queue;
 
