@@ -1,6 +1,6 @@
 # Using prams given in csa-makefile
 CC = gcc
-WARNING_FLAGS = -Wall -Wextra
+WARNING_FLAGS = -Wall -Wextra -Wdeprecated-declarations
 OPTS = -pthread
 EXE = prodcom
 SCAN_BUILD_DIR = scan-build-out

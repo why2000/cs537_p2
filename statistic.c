@@ -1,6 +1,8 @@
 //
 // Created by Hanyuan Wu on 10/7/20.
 // team members: Hanyuan Wu, Zhihao Shu
+// netID: hwu394 zshu9
+// login: hanyuan hshu
 
 #include "statistic.h"
 
