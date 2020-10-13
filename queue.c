@@ -4,7 +4,9 @@
 
 #include "queue.h"
 
-
+/*
+ * Init queue
+ */
 Queue* CreateStringQueue(int size){
     Queue *queue = malloc(sizeof(Queue));
     queue->first = 0;
@@ -12,7 +14,7 @@ Queue* CreateStringQueue(int size){
     queue->size = size;
     queue->signal = 0;
     queue->array = (char**)malloc(sizeof(char*)*size);
-    sem_init(&queue->mutex,0,1);
+    //sem_init(&queue->mutex,0,1);
     sem_init(&queue->enList,0,size);
     sem_init(&queue->deList,0,0);
 
@@ -20,22 +22,26 @@ Queue* CreateStringQueue(int size){
 }
 
 
-void EnqueueString(Queue* const q, char* const string){
+/*
+ * Enqueue with inStr to the last
+ */
+void EnqueueString(Queue* const q, char* const inStr){
     clock_t start, finish;
     start = clock();
-    // is the mutex sem redundent?
     sem_wait(&q->enList);
-    sem_wait(&q->mutex);
-    q->array[q->last] = string;
+    q->array[q->last] = inStr;
     countEnqueue(&(q->stat));
     q->last = (q->last+1)%(q->size);
     sem_post(&q->deList);
-    sem_post(&q->mutex);
+    //sem_post(&q->mutex);
     finish = clock();
     enqueueTimer(&(q->stat), finish - start);
 
 }
 
+/*
+ * dequeue the first in queue
+ */
 char* DequeueString(Queue* const q){
     clock_t start, finish;
     start = clock();
@@ -43,13 +49,11 @@ char* DequeueString(Queue* const q){
     if(q->signal && q->first == q->last)
         return NULL;
     sem_wait(&q->deList);
-    sem_wait(&q->mutex);
     char* ret = q->array[q->first];
     q->array[q->first] = NULL;
     q->first = (q->first+1)%(q->size);
     countDequeue(&(q->stat));
     sem_post(&q->enList);
-    sem_post(&q->mutex);
     finish = clock();
     dequeueTimer(&(q->stat), finish - start);
     return ret;
@@ -57,10 +61,10 @@ char* DequeueString(Queue* const q){
 }
 
 
-// use mutex in case it might be called during enqueue/dequeue process
+/*
+ * output function
+ */
 void PrintQueueStats(Queue* const q){
-    sem_wait(&q->mutex);
     printStats(q->stat);
-    sem_post(&q->mutex);
 
 }
