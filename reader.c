@@ -1,14 +1,21 @@
 //
-// Created by hanyuan on 10/12/20.
-//
+// Created by Hanyuan Wu on 10/7/20.
+// team members: Hanyuan Wu, Zhihao Shu
 
+#define DEBUG
 #include "reader.h"
 
 void Reader(void* vQ){
     Queue* q = (Queue*)vQ;
     char* bufStr;
     bufStr = (char*)malloc(sizeof(char)*MAX_LINE);
+#ifdef DEBUG
+    // since my vm does not support the input of EOF
+    FILE* fp = fopen("./test.txt", "r");
+    while(fgets(bufStr, MAX_LINE, fp) != NULL){
+#else
     while(fgets(bufStr, MAX_LINE, stdin) != NULL){
+#endif
         EnqueueString(q, bufStr);
         bufStr = NULL;
         // register a new str

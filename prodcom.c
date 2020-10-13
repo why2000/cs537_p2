@@ -1,6 +1,7 @@
 //
 // Created by Hanyuan Wu on 10/7/20.
 // team members: Hanyuan Wu, Zhihao Shu
+
 #include "prodcom.h"
 
 #include "queue.h"
@@ -12,7 +13,7 @@
 
 
 
-int main(int argc, char** argv) {
+int main(void) {
     Queue* queue1, * queue2, * queue3;
     queue1 = CreateStringQueue(TEST_SIZE);
     queue2 = CreateStringQueue(TEST_SIZE);
@@ -45,6 +46,14 @@ int main(int argc, char** argv) {
     pthread_join(munch1, NULL);
     pthread_join(munch2, NULL);
     pthread_join(writer, NULL);
+
+    fprintf(stderr,"Statics:\n");
+    fprintf(stderr,"Queue between Reader and Munch1:\n");
+    PrintQueueStats(queue1);
+    fprintf(stderr,"Queue between Munch1 and Munch2:\n");
+    PrintQueueStats(queue2);
+    fprintf(stderr,"Queue between Munch2 and Writer:\n");
+    PrintQueueStats(queue3);
 
 
     return 0;

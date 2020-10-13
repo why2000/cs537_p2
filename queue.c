@@ -23,16 +23,16 @@ Queue* CreateStringQueue(int size){
 void EnqueueString(Queue* const q, char* const string){
     clock_t start, finish;
     start = clock();
-    // if the mutex sem is redundent?
+    // is the mutex sem redundent?
     sem_wait(&q->enList);
     sem_wait(&q->mutex);
     q->array[q->last] = string;
-    q->enqueueCount++;
+    countEnqueue(&(q->stat));
     q->last = (q->last+1)%(q->size);
     sem_post(&q->deList);
     sem_post(&q->mutex);
     finish = clock();
-    q->enqueueTime = (double)(finish - start);
+    enqueueTimer(&(q->stat), finish - start);
 
 }
 
@@ -47,20 +47,20 @@ char* DequeueString(Queue* const q){
     char* ret = q->array[q->first];
     q->array[q->first] = NULL;
     q->first = (q->first+1)%(q->size);
-    q->dequeueCount++;
+    countDequeue(&(q->stat));
     sem_post(&q->enList);
     sem_post(&q->mutex);
     finish = clock();
-    q->dequeueTime = (double)(finish - start);
+    dequeueTimer(&(q->stat), finish - start);
     return ret;
 
 }
 
+
+// use mutex in case it might be called during enqueue/dequeue process
 void PrintQueueStats(Queue* const q){
     sem_wait(&q->mutex);
-    printf("enqueueCnt\tdequeueCnt\tenqueueTime\tdequeueTime\t");
-    printf("%d\t%d\t%lf\t%lf",
-           q->enqueueCount, q->dequeueCount, q->enqueueTime, q->dequeueTime);
+    printStats(q->stat);
     sem_post(&q->mutex);
 
 }

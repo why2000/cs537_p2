@@ -1,6 +1,6 @@
 //
-// Created by hanyuan on 10/12/20.
-//
+// Created by Hanyuan Wu on 10/7/20.
+// team members: Hanyuan Wu, Zhihao Shu
 
 #ifndef PRODCOM_PRODCOM_H
 #define PRODCOM_PRODCOM_H
@@ -15,5 +15,8 @@
 #include <sys/time.h>
 #include <time.h>
 #include <pthread.h>
+#include <ctype.h>
+
+
 
 #endif //PRODCOM_PRODCOM_H

@@ -1,6 +1,6 @@
 //
-// Created by hanyuan on 10/12/20.
-//
+// Created by Hanyuan Wu on 10/7/20.
+// team members: Hanyuan Wu, Zhihao Shu
 
 #include "munch1.h"
 
@@ -19,5 +19,9 @@ void Munch1(void* qIO){
 }
 
 void strrpl(char* const inStr, const char src, const char tgt){
-
+    unsigned long length = strlen(inStr);
+    for(unsigned long i = 0; i < length+1; i++){
+        if(inStr[i] == src)
+            inStr[i] = tgt;
+    }
 }

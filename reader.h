@@ -1,6 +1,6 @@
 //
-// Created by hanyuan on 10/12/20.
-//
+// Created by Hanyuan Wu on 10/7/20.
+// team members: Hanyuan Wu, Zhihao Shu
 
 #ifndef PRODCOM_READER_H
 #define PRODCOM_READER_H

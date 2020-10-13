@@ -6,22 +6,19 @@
 #ifndef PRODCOM_QUEUE_H
 #define PRODCOM_QUEUE_H
 #include "prodcom.h"
+#include "statistic.h"
 
 typedef struct{
     int signal;
     int first;
     int last;
     int size;
-    int enqueueCount;
-    int dequeueCount;
     char** array;
-    double enqueueTime;
-    double dequeueTime;
     sem_t enList;
     sem_t deList;
     // this sem is used for extension -- such as printing or other side-functions
     sem_t mutex;
-
+    Stat stat;
 } Queue;
 
 
@@ -30,7 +27,7 @@ typedef struct{
     Queue* outQ;
 } QueueIO;
 
-Queue *CreateStringQueue(int size);
+Queue* CreateStringQueue(int size);
 
 void EnqueueString(Queue *q, char *string);
 

@@ -1,6 +1,6 @@
 //
-// Created by hanyuan on 10/12/20.
-//
+// Created by Hanyuan Wu on 10/7/20.
+// team members: Hanyuan Wu, Zhihao Shu
 
 #include "munch2.h"
 
@@ -19,5 +19,9 @@ void Munch2(void* qIO){
 }
 
 void strtoup(char* const inStr){
-
+    unsigned long length = strlen(inStr);
+    for(unsigned long i = 0; i < length+1; i++){
+        if(islower(inStr[i]))
+            inStr[i] = (char)toupper(inStr[i]);
+    }
 }
