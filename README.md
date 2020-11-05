@@ -1,5 +1,9 @@
 # CS537 P2 (prodcom)
 
+## Claiming:
+
+* This project repo will be make public only AFTER the assignment is due
+
 ## Author:
 
 |Name|CSlogin|NetID|
