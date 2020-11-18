@@ -2,7 +2,9 @@
 
 ## Claiming:
 
-* This project repo will be make public only AFTER the assignment is due
+* **This project repo will be make public only AFTER the assignment is due**
+
+## Grade: 7/10
 
 ## Author:
 
